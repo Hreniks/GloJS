@@ -13,3 +13,7 @@ console.log('length: ', addExpenses.length);
 console.log("Период равен " + period + " месяца ",`Цель заработать ${mission} долларов`);
 console.log(addExpenses.toLowerCase().split(','));
 console.log('budgetDay: ', budgetDay);
+
+mission = prompt("Ваш месячный доход?");
+addExpenses = prompt("Перечислите возможные расходы за рассчитываемый период через запятую");
+deposit = confirm("Есть ли у вас депозит в банке?");
