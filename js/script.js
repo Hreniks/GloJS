@@ -10,7 +10,7 @@ const amount2 = prompt("Во сколько это обойдется?");
 
 let showTypeOf = function(data){
     console.log(data, typeof(data));
-}
+};
 
 function getExpensesMonth(){
     return Number(amount1) + Number(amount2);
@@ -45,23 +45,3 @@ console.log("Cрок достижения цели в месяцах: ", getTarg
 console.log('Бюджет на день: ', budgetDay);
 console.log(getStatusIncome());
 
-// console.log(typeof money, typeof income, typeof deposit);
-// console.log('length: ', addExpenses.length);
-// console.log("Период равен " + period + " месяца ",`Цель заработать ${mission} долларов`);
-// 
-
-// const exspenses1 = prompt("Введите обязательную статью расходов");
-// const exspenses2 = prompt("Введите обязательную статью расходов");
-
-
-
-// console.log("Бюджет на месяц: ", budgetMonth);
-// console.log("Цель будет достигнута за: ", Math.ceil(mission / budgetMonth));
-
-// budgetDay = Math.floor(budgetMonth / 30); 
-
-// budgetDay >= 1200 ? console.log("У вас высокий доход") :
-// budgetDay >= 600 && budgetDay < 1200 ? console.log("У вас средний уровень дохода") :
-// budgetDay < 600 && budgetDay >= 0 ? console.log("К сожалению у вас уровень дохода ниже среднего") :
-// budgetDay < 0 ? console.log("Что то пошло не так") : 
-// console.log("error");
