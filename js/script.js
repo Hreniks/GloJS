@@ -10,27 +10,23 @@ function DomElement(selector,height,width,bg,fontSize){
 
     DomElement.prototype.createElement = function(){
         let className = selector.slice(1);
-        let newDiv = document.createElement('div');
-        let newP = document.createElement('p');
+        let block;
         
-        if (selector.indexOf('.',0) === 0){
-           newDiv.classList.add(className);
-           document.body.append(newDiv);
-           newDiv.style.height = height;
-           newDiv.style.width = width;
-           newDiv.style.backgroundColor = bg;
-           newDiv.style.fontSize = fontSize;
-           newDiv.textContent = 'div';
+        if (this.selector.indexOf('.',0) === 0){
+           block = document.createElement('div');
+           block.classList.add(className);
+           document.body.append(block);
         }
-        else if (selector.indexOf('#',0) === 0) {
-           newP.id = className;
-           document.body.append(newP);
-           newP.style.height = height;
-           newP.style.width = width;
-           newP.style.backgroundColor = bg;
-           newP.style.fontSize = fontSize;
-           newP.textContent = 'p';
+        else if (this.selector.indexOf('#',0) === 0) {
+           block = document.createElement('p');
+           block.id = className;
+           document.body.append(block);
         }
+        block.style.cssText = `
+        height: ${this.height};
+        width: ${this.width};
+        background: ${this.bg};
+        font-size: ${this.fontSize};`;
     };
     //return createElement();
 }
