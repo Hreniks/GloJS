@@ -136,14 +136,13 @@ let appData = {
         });
     },
     getAddExpenses: function(){
-        this.getAddExpenses.bind(appData);
         let addExpenses = additionalExpensesItem.value.split(',');
         addExpenses.forEach(function(item){
             item = item.trim();
             if (item !==''){
                this.addExpenses.push(item);
             }
-        });
+        },appData);
     },
     getAddIncome: function(){
         //this.getAddIncome.bind(appData);
@@ -153,7 +152,7 @@ let appData = {
             if (item.value !== ''){
                 this.addIncome.push(itemValue);
             }
-        });
+        },appData);
 
     },
     addExpensesBlock: function(){
