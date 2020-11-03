@@ -244,14 +244,13 @@ class AppData {
         if (valueSelect === 'other'){
             depositPercent.removeAttribute('disabled');
             depositPercent.style.display = 'inline-block';
-            depositPercent.addEventListener('input',() =>{
-            start.removeAttribute('disabled');
-            });
             this.depositPercent = depositPercent.value;
             
         }
         else{
             depositPercent.value = valueSelect;
+            depositPercent.style.display = 'none';
+            depositPercent.value = '';
         }
     }
 
@@ -260,7 +259,7 @@ class AppData {
             depositBank.style.display = 'inline-block';
             depositAmount.style.display = 'inline-block';
             this.deposit = true;
-            depositBank.addEventListener('change', this.changePercent);
+           ;
         }
         else{
             depositBank.style.display = 'none';
@@ -303,7 +302,10 @@ class AppData {
             }
            
         });
-
+        depositBank.addEventListener('change', this.changePercent);
+        depositPercent.addEventListener('input',() =>{
+            start.removeAttribute('disabled');
+            });
         start.addEventListener('click', this.start.bind(appData));
         addExpensesBtn.addEventListener('click', this.addExpensesBlock);
         addIncomeBtn.addEventListener('click', this.addIncomeBlock);
