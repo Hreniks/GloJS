@@ -10,19 +10,16 @@ const cityArr = {
 
   const sel = document.getElementById('country');
   const citySel = document.getElementById('city');
-  const selected = citySel.getElementsByTagName('options');
-  const h3 = document.getElementsByTagName('h3')[0];
+  const selected = citySel.querySelectorAll('newOption')[0];
+  const h3 = document.querySelector('h3');
   console.log(sel);
   //console.log(selected);
 
-  document.addEventListener('onload',() =>{
-    
-
-  });
 
 
   sel.addEventListener('change',() =>{
     
+    citySel.style.display = 'inline-block';
     for (const element in citySel) {
            citySel.remove(element);
         }
@@ -33,6 +30,7 @@ const cityArr = {
            // console.log(cityArr[key]);
             for (const i in cityArr[key]) {
                 const newOption = document.createElement('option');
+                newOption.classList += `newOption`;
                 newOption.textContent = cityArr[key][i];
                 //console.log('cityArr[key][i]: ', cityArr[key][i]);
                 citySel.appendChild(newOption);
