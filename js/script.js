@@ -282,30 +282,43 @@ class AppData {
                 });
                
             }
-            else if (!isNumber(depositPercent.value) || parseFloat(depositPercent.value) > 100 || parseFloat(depositPercent.value) < 0){
+            else if (depositCheckBox.checked){
+                if (!isNumber(depositPercent.value) || parseFloat(depositPercent.value) > 100 || parseFloat(depositPercent.value) < 0){
                     alert("Введите корректное значение в поле проценты!");
                     start.setAttribute('disabled', 'disabled');
+                    
                 }
-            else {
-                const inputsTypeText = document.querySelectorAll('input[type=text]');
-
+                else {
+                    const inputsTypeText = document.querySelectorAll('input[type=text]');
                 inputsTypeText.forEach((item) => {
                     item.setAttribute('disabled', 'disabled');
-
                 });
+
+                start.hidden = true;
+                addIncomeBtn.setAttribute('disabled', 'disabled');
+                addExpensesBtn.setAttribute('disabled', 'disabled');
+                resetBtn.style.display = 'block';
+                }
+                
+            }
+            else {
+                const inputsTypeText = document.querySelectorAll('input[type=text]');
+                inputsTypeText.forEach((item) => {
+                    item.setAttribute('disabled', 'disabled');
+                });
+
                 start.hidden = true;
                 addIncomeBtn.setAttribute('disabled', 'disabled');
                 addExpensesBtn.setAttribute('disabled', 'disabled');
                 resetBtn.style.display = 'block';
                 //periodSelect.setAttribute('disabled', 'disabled');
-                
             }
-           
         });
-        
         depositPercent.addEventListener('input',() =>{
             start.removeAttribute('disabled');
             });
+            
+
         start.addEventListener('click', this.start.bind(appData));
         addExpensesBtn.addEventListener('click', this.addExpensesBlock);
         addIncomeBtn.addEventListener('click', this.addIncomeBlock);
