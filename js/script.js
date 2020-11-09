@@ -41,7 +41,6 @@ class Todo {
         else {
             this.todoList.append(li);
         }
-
     }
 
     addToDo(e) {
@@ -61,9 +60,11 @@ class Todo {
             };
 
             this.todoData.set(newTodo.key, newTodo);
+            this.input.value = '';
             this.render();
+            
         }
-
+        
     }
 
     init() {
