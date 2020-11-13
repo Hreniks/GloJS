@@ -371,6 +371,7 @@ window.addEventListener('DOMContentLoaded', () => {
             totalValue = document.getElementById('total'),
             calcCount = document.querySelector('.calc-count');
             let total = 0;
+            let interval;
 
         const countSum = () =>{
             
@@ -393,25 +394,29 @@ window.addEventListener('DOMContentLoaded', () => {
 
             if (typeValue && squareValue){
                 total = Math.ceil(price * typeValue * squareValue * countValue * dayValue);
+                
             }
-
+            
            // totalValue.textContent = total;
+           
         };
 
         const calcAnim = () => {
-            const time = 3000;
-            const step = 10;
+            //animation = false;
 
+            const time = 2000;
+            const step = 1;
+            totalValue.innerHTML = 0;
             let n = 0;
             let t = Math.round(time / (total / step));
-            let interval = setInterval(() => {
+            
+            interval = setInterval(() => {
                 n += step;
-                if (n === total){
-                    clearInterval(interval);
+                if (n !== total){
+                    totalValue.innerHTML = n + 1;
                 }
                 else{
-                    totalValue.innerHTML = n + 10;
-                    
+                clearInterval(interval); 
                 }
             }, t);
         };
@@ -420,14 +425,16 @@ window.addEventListener('DOMContentLoaded', () => {
         calcBlock.addEventListener('change',(e) => {
             const target = e.target;
             
-            if (target === calcType || target === calcSquare || target === calcDay || target === calcCount){
-                
+            if (target.matches('select') || target.matches('input')){
                 countSum();
-                
-                if (total !== 0 && calcType.value && calcSquare.value && calcDay.value && calcCount.value){
+                console.log(total);
+                clearInterval(interval);
+                if (total !== 0){ 
                     calcAnim();
-                } 
-            }   
+                }
+              
+            }  
+            
         });
 
     };
