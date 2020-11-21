@@ -18,8 +18,8 @@ const sendForm = () => {
 
 
 
-    function addAnimation(body,form) {
-
+    function addAnimation(body, form) {
+        statusMessage.textContent = '';
         statusMessage.classList = 'sk-rotating-plane';
         statusMessage.style = `
         width: 4em;
@@ -40,23 +40,29 @@ const sendForm = () => {
 
         dynamicStyles.sheet.insertRule(body, dynamicStyles.length);
 
-       
+
 
     }
 
-    const hideAnim = () =>{
+    function validateEmail(email) {
+        var re = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+        return re.test(String(email).toLowerCase());
+    }
+
+    const hideAnim = () => {
         document.querySelector('.dinamic-styles').remove();
         statusMessage.removeAttribute('style');
+
         statusMessage.style.color = '#ffff';
         statusMessage.textContent = successMessage;
-       
-       
+
+
         let interval = setTimeout(() => {
             statusMessage.classList.remove('sk-rotating-plane');
             statusMessage.remove();
             statusMessage.textContent = '';
             clearTimeout(interval);
-        },5000);
+        }, 5000);
     };
 
 
@@ -64,7 +70,7 @@ const sendForm = () => {
     form1.addEventListener('submit', (event) => {
         event.preventDefault();
 
-    
+
 
         form1.appendChild(statusMessage);
         const form1Data = new FormData(form1);
@@ -74,31 +80,36 @@ const sendForm = () => {
             body[key] = val;
         });
 
-         addAnimation(`
-    @keyframes sk-rotating-plane {
-    0% {
-      transform: perspective(120px) rotateX(0deg) rotateY(0deg);
-    }
-    50% {
-      transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
-    }
-    100% {
-      transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
-    }
-  }
-    `,form1);
 
-    
-        postData(body)
+
+        if (validateEmail(form1.querySelector('.form-email').value) !== true) {
+            statusMessage.textContent = 'Введите корректный e-mail';
+            statusMessage.style.color = 'red';
+            return;
+        }
+        else postData(body)
             .then(response => {
-            hideAnim();
-            if (response.status !== 200){
-                throw new Error('status network not 200');
-            }
-        })
-        .catch( 
-            error => console.error(error));
+                hideAnim();
+                if (response.status !== 200) {
+                    throw new Error('status network not 200');
+                }
+            })
+            .catch(error => console.error(error));
 
+
+        addAnimation(`
+            @keyframes sk-rotating-plane {
+            0% {
+              transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+            }
+            50% {
+              transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+            }
+            100% {
+              transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+            }
+          }
+            `, form1);
         // if (form1.querySelector('.form-phone').value){
         //     let re = /^\d[\d\(\)\ -]{4,14}\d$/;
         //     let valid = re.test(form1.querySelector('.form-phone').value);
@@ -113,7 +124,7 @@ const sendForm = () => {
 
 
 
-        form1Inputs.forEach((item) => {    
+        form1Inputs.forEach((item) => {
             item.value = '';
         });
 
@@ -124,15 +135,19 @@ const sendForm = () => {
         form.addEventListener('input', (e) => {
             if (e.target.classList.contains('form-phone')) {
                 e.target.value = e.target.value.replace(/[^+0-9]/ig, '');
-                if (/^8/ig.test(e.target.value)){
-                    let validPhone = e.target.value.substring(e.target.value.indexOf('8'),e.target.value.length - 1);
-                    if (e.target.value.length > 11){
-                        e.target.value = e.target.value.replace(e.target.value,validPhone);
+                e.target.value = e.target.value.replace(/\+{1,}/ig, '+');
+                e.target.value = e.target.value.replace(/\d{1}\+/ig, e.target.value[0]);
+                e.target.value = e.target.value.replace(/\+\d{1,}\+/ig, e.target.value.substring(e.target.value.indexOf('+'), e.target.value.length - 1));
+                if (/^8/ig.test(e.target.value)) {
+                    let validPhone = e.target.value.substring(e.target.value.indexOf('8'), e.target.value.length - 1);
+                    if (e.target.value.length > 11) {
+                        e.target.value = e.target.value.replace(e.target.value, validPhone);
                     }
                 }
-                else if (/^\+/ig.test(e.target.value)){
-                    let plusPhone = e.target.value.substring(e.target.value.indexOf('+'),e.target.value.length - 1);
-                    if (e.target.value.length > 12){
+                else if (/^\+/ig.test(e.target.value)) {
+                    
+                    let plusPhone = e.target.value.substring(e.target.value.indexOf('+'), e.target.value.length - 1);
+                    if (e.target.value.length > 12) {
                         e.target.value = e.target.value.replace(e.target.value, plusPhone);
                     }
                 }
@@ -142,25 +157,23 @@ const sendForm = () => {
             }
 
             if (e.target.classList.contains('mess')) {
-                e.target.value = e.target.value.replace(/[^а-яё\s]/ig, '');
+                e.target.value = e.target.value.replace(/[^а-яё\.-.?!)(,:;'\s]/ig, '');
             }
 
-            if (e.target.classList.contains('form-email')){
+            if (e.target.classList.contains('form-email')) {
+
+
                 let stringMail = e.target.value.substring(e.target.value.indexOf('@'), e.target.value.length - 1);
-                
-                
-                if (/@[\w\-*+*=*#*$*]{10,}/ig.test(e.target.value)){
-                     e.target.value = e.target.value.replace(/@[\w.\-+=#$*]{10,}/ig, stringMail);
+                if (/@[\w\-*+*=*#*$*]{10,}/ig.test(e.target.value)) {
+                    e.target.value = e.target.value.replace(/@[\w.\-+=#$*]{10,}/ig, stringMail);
                 }
-               
-            
-                
-                let stringDomen = e.target.value.substring(e.target.value.lastIndexOf('.'), e.target.value.length-1);
-                if (/\.{1}\w{5,}/.test(e.target.value)){
+
+                let stringDomen = e.target.value.substring(e.target.value.lastIndexOf('.'), e.target.value.length - 1);
+                if (/\.{1}\w{5,}/.test(e.target.value)) {
                     e.target.value = e.target.value.replace(/\.{1}\w{6,}/ig, stringDomen);
                 }
-                
-                
+
+
             }
         });
     };
@@ -169,20 +182,7 @@ const sendForm = () => {
 
     form2.addEventListener('submit', (e) => {
         e.preventDefault();
-    
-    addAnimation(`
-    @keyframes sk-rotating-plane {
-    0% {
-      transform: perspective(120px) rotateX(0deg) rotateY(0deg);
-    }
-    50% {
-      transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
-    }
-    100% {
-      transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
-    }
-  }
-    `,form2);
+
         form2.appendChild(statusMessage);
         //statusMessage.textContent = loadMessage;
 
@@ -193,28 +193,24 @@ const sendForm = () => {
             body[key] = val;
         });
 
-        
 
-        postData(body)
-        .then(response => {
-        hideAnim();
-        if (response.status !== 200){
-            throw new Error('status network not 200');
+
+        if (validateEmail(form2.querySelector('.form-email').value) !== true) {
+            statusMessage.textContent = 'Введите корректный e-mail';
+            statusMessage.style.color = 'red';
+            return;
         }
-    })
-    .catch( 
-        error => console.error(error));
+        else postData(body)
+            .then(response => {
+                hideAnim();
+                if (response.status !== 200) {
+                    throw new Error('status network not 200');
+                }
+            })
+            .catch(error => console.error(error));
 
-        form2Inputs.forEach((item) => {
-            item.value = '';
-        });
-    });
 
-
-    form3.addEventListener('submit', (e) => {
-        e.preventDefault();
-
-    addAnimation(`
+        addAnimation(`
     @keyframes sk-rotating-plane {
     0% {
       transform: perspective(120px) rotateX(0deg) rotateY(0deg);
@@ -226,11 +222,19 @@ const sendForm = () => {
       transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
     }
   }
-    `,form3);
+    `, form2);
+        form2Inputs.forEach((item) => {
+            item.value = '';
+        });
+    });
+
+
+    form3.addEventListener('submit', (e) => {
+        e.preventDefault();
 
         form3.appendChild(statusMessage);
-        
-       // statusMessage.textContent = loadMessage;
+
+        // statusMessage.textContent = loadMessage;
 
         const form3Data = new FormData(form3);
         let body = {};
@@ -239,28 +243,45 @@ const sendForm = () => {
             body[key] = val;
         });
 
-       
 
-        postData(body)
+
+        if (validateEmail(form3.querySelector('.form-email').value) !== true) {
+            statusMessage.textContent = 'Введите корректный e-mail';
+            statusMessage.style.color = 'red';
+            return;
+        }
+        else postData(body)
             .then(response => {
-            hideAnim();
-            if (response.status !== 200){
-                throw new Error('status network not 200');
-            }
-        })
-        .catch( 
-            error => console.error(error));
+                hideAnim();
+                if (response.status !== 200) {
+                    throw new Error('status network not 200');
+                }
+            })
+            .catch(error => console.error(error));
 
+        addAnimation(`
+            @keyframes sk-rotating-plane {
+            0% {
+              transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+            }
+            50% {
+              transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+            }
+            100% {
+              transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+            }
+          }
+            `, form3);
 
         form3Inputs.forEach((item) => {
             item.value = '';
         });
 
-        let timeout = setTimeout(()=>{
+        let timeout = setTimeout(() => {
             document.querySelector('.popup').style.display = 'none';
             statusMessage.remove();
             clearTimeout(timeout);
-        },5000);
+        }, 5000);
     });
 
     formValid('form1');
@@ -269,7 +290,7 @@ const sendForm = () => {
 
     const postData = (body) => {
 
-        return  fetch('./server.php',{
+        return fetch('./server.php', {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'

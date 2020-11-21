@@ -16,13 +16,14 @@ const toggleMenu = () => {
 
 
     //btnMenu.addEventListener('click', handlerMenu);
-    document.body.addEventListener('click', event => {
+    document.body.addEventListener('click', (event) => {
 
 
-        if (event.target.closest('.menu') || event.target.closest('menu') || event.target.closest('.close-btn')) {
+        if (event.target.closest('.menu') || event.target.closest('.close-btn')) {
             handlerMenu();
-        } else if (!event.target.closest('menu') && menu.classList.contains('active-menu')) {
-            handlerMenu();
+        } else if (menu.classList.contains('active-menu')) {
+            console.log(2);
+            if (!event.target.closest('.active-menu') || event.target.hasAttribute('href')) handlerMenu();
         }
 
     });
