@@ -81,9 +81,12 @@ const sendForm = () => {
             body[key] = val;
         });
 
-
-
-        if (validateEmail(form1.querySelector('.form-email').value) !== true) {
+        if (form1.querySelector('.form-phone').value === '+'){
+            statusMessage.textContent = 'Введите корректный телефон';
+            statusMessage.style.color = 'red';
+            return;
+        }
+        else if (validateEmail(form1.querySelector('.form-email').value) !== true) {
             statusMessage.textContent = 'Введите корректный e-mail';
             statusMessage.style.color = 'red';
             return;
@@ -192,9 +195,12 @@ const sendForm = () => {
             body[key] = val;
         });
 
-
-
-        if (validateEmail(form2.querySelector('.form-email').value) !== true) {
+        if (form2.querySelector('.form-phone').value === '+'){
+            statusMessage.textContent = 'Введите корректный телефон';
+            statusMessage.style.color = 'red';
+            return;
+        }
+        else if (validateEmail(form2.querySelector('.form-email').value) !== true) {
             statusMessage.textContent = 'Введите корректный e-mail';
             statusMessage.style.color = 'red';
             return;
@@ -241,9 +247,12 @@ const sendForm = () => {
             body[key] = val;
         });
 
-
-
-        if (validateEmail(form3.querySelector('.form-email').value) !== true) {
+        if (form3.querySelector('.form-phone').value === '+'){
+            statusMessage.textContent = 'Введите корректный телефон';
+            statusMessage.style.color = 'red';
+            return;
+        }
+        else if (validateEmail(form3.querySelector('.form-email').value) !== true) {
             statusMessage.textContent = 'Введите корректный e-mail';
             statusMessage.style.color = 'red';
             return;
