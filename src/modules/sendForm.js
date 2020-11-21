@@ -21,8 +21,8 @@ const sendForm = () => {
 
     function addAnimation(body, form) {
         statusMessage.textContent = '';
-        statusMessage.classList = 'sk-rotating-plane';
-        statusMessage.style = `
+        statusMessage.classList.add('sk-rotating-plane');
+        statusMessage.style.cssText = `
         width: 4em;
         height: 4em; 
         margin: auto;
@@ -31,13 +31,13 @@ const sendForm = () => {
         animation: sk-rotating-plane 1.2s infinite ease-in-out;
     `;
 
-        let dynamicStyles;
-        // if (!dynamicStyles) {
+        let dynamicStyles = null;
+        if (!dynamicStyles) {
             dynamicStyles = document.createElement('style');
             dynamicStyles.type = 'text/css';
-            dynamicStyles.classList = 'dinamic-styles';
-            form.append(dynamicStyles);
-        // 
+            dynamicStyles.classList.add('dinamic-styles');
+            form.appendChild(dynamicStyles);
+        }
 
         dynamicStyles.sheet.insertRule(body, dynamicStyles.length);
 
@@ -89,7 +89,7 @@ const sendForm = () => {
             return;
         } else postData(body)
             .then(response => {
-               // hideAnim();
+               hideAnim();
                 if (response.status !== 200) {
                     throw new Error('status network not 200');
                 }
