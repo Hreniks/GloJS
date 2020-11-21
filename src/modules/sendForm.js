@@ -81,7 +81,7 @@ const sendForm = () => {
             body[key] = val;
         });
 
-        if (form1.querySelector('.form-phone').value === '+'){
+        if (form1.querySelector('.form-phone').value.length < 10){
             statusMessage.textContent = 'Введите корректный телефон';
             statusMessage.style.color = 'red';
             return;
@@ -195,7 +195,7 @@ const sendForm = () => {
             body[key] = val;
         });
 
-        if (form2.querySelector('.form-phone').value === '+'){
+        if (form2.querySelector('.form-phone').value.length < 10){
             statusMessage.textContent = 'Введите корректный телефон';
             statusMessage.style.color = 'red';
             return;
@@ -247,7 +247,7 @@ const sendForm = () => {
             body[key] = val;
         });
 
-        if (form3.querySelector('.form-phone').value === '+'){
+        if (form3.querySelector('.form-phone').value.length < 10){
             statusMessage.textContent = 'Введите корректный телефон';
             statusMessage.style.color = 'red';
             return;
