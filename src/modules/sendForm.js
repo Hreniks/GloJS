@@ -158,7 +158,7 @@ const sendForm = () => {
 
             if (e.target.classList.contains('mess')) {
                 e.target.value = e.target.value.replace(/[^а-яё\.-.?!)(,:;'\s]/ig, '');
-            }
+            }   
 
             if (e.target.classList.contains('form-email')) {
 
