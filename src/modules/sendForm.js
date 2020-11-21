@@ -1,3 +1,4 @@
+
 const sendForm = () => {
     const errorMessage = `Что то пошло не так...`,
         loadMessage = `Загрузка...`,
@@ -30,13 +31,13 @@ const sendForm = () => {
         animation: sk-rotating-plane 1.2s infinite ease-in-out;
     `;
 
-        let dynamicStyles = null;
-        if (!dynamicStyles) {
+        let dynamicStyles;
+        // if (!dynamicStyles) {
             dynamicStyles = document.createElement('style');
             dynamicStyles.type = 'text/css';
             dynamicStyles.classList = 'dinamic-styles';
-            form.appendChild(dynamicStyles);
-        }
+            form.append(dynamicStyles);
+        // 
 
         dynamicStyles.sheet.insertRule(body, dynamicStyles.length);
 
@@ -45,7 +46,7 @@ const sendForm = () => {
     }
 
     function validateEmail(email) {
-        var re = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+        const re = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
         return re.test(String(email).toLowerCase());
     }
 
@@ -57,7 +58,7 @@ const sendForm = () => {
         statusMessage.textContent = successMessage;
 
 
-        let interval = setTimeout(() => {
+        const interval = setTimeout(() => {
             statusMessage.classList.remove('sk-rotating-plane');
             statusMessage.remove();
             statusMessage.textContent = '';
@@ -67,14 +68,14 @@ const sendForm = () => {
 
 
 
-    form1.addEventListener('submit', (event) => {
+    form1.addEventListener('submit', event => {
         event.preventDefault();
 
 
 
         form1.appendChild(statusMessage);
         const form1Data = new FormData(form1);
-        let body = {};
+        const body = {};
 
         form1Data.forEach((val, key) => {
             body[key] = val;
@@ -86,10 +87,9 @@ const sendForm = () => {
             statusMessage.textContent = 'Введите корректный e-mail';
             statusMessage.style.color = 'red';
             return;
-        }
-        else postData(body)
+        } else postData(body)
             .then(response => {
-                hideAnim();
+               // hideAnim();
                 if (response.status !== 200) {
                     throw new Error('status network not 200');
                 }
@@ -124,29 +124,28 @@ const sendForm = () => {
 
 
 
-        form1Inputs.forEach((item) => {
+        form1Inputs.forEach(item => {
             item.value = '';
         });
 
     });
 
-    const formValid = (name) => {
-        let form = document.getElementById(name);
-        form.addEventListener('input', (e) => {
+    const formValid = name => {
+        const form = document.getElementById(name);
+        form.addEventListener('input', e => {
             if (e.target.classList.contains('form-phone')) {
                 e.target.value = e.target.value.replace(/[^+0-9]/ig, '');
                 e.target.value = e.target.value.replace(/\+{1,}/ig, '+');
                 e.target.value = e.target.value.replace(/\d{1}\+/ig, e.target.value[0]);
                 e.target.value = e.target.value.replace(/\+\d{1,}\+/ig, e.target.value.substring(e.target.value.indexOf('+'), e.target.value.length - 1));
                 if (/^8/ig.test(e.target.value)) {
-                    let validPhone = e.target.value.substring(e.target.value.indexOf('8'), e.target.value.length - 1);
+                    const validPhone = e.target.value.substring(e.target.value.indexOf('8'), e.target.value.length - 1);
                     if (e.target.value.length > 11) {
                         e.target.value = e.target.value.replace(e.target.value, validPhone);
                     }
-                }
-                else if (/^\+/ig.test(e.target.value)) {
-                    
-                    let plusPhone = e.target.value.substring(e.target.value.indexOf('+'), e.target.value.length - 1);
+                } else if (/^\+/ig.test(e.target.value)) {
+
+                    const plusPhone = e.target.value.substring(e.target.value.indexOf('+'), e.target.value.length - 1);
                     if (e.target.value.length > 12) {
                         e.target.value = e.target.value.replace(e.target.value, plusPhone);
                     }
@@ -158,17 +157,17 @@ const sendForm = () => {
 
             if (e.target.classList.contains('mess')) {
                 e.target.value = e.target.value.replace(/[^а-яё\.-.?!)(,:;'\s]/ig, '');
-            }   
+            }
 
             if (e.target.classList.contains('form-email')) {
 
 
-                let stringMail = e.target.value.substring(e.target.value.indexOf('@'), e.target.value.length - 1);
+                const stringMail = e.target.value.substring(e.target.value.indexOf('@'), e.target.value.length - 1);
                 if (/@[\w\-*+*=*#*$*]{10,}/ig.test(e.target.value)) {
                     e.target.value = e.target.value.replace(/@[\w.\-+=#$*]{10,}/ig, stringMail);
                 }
 
-                let stringDomen = e.target.value.substring(e.target.value.lastIndexOf('.'), e.target.value.length - 1);
+                const stringDomen = e.target.value.substring(e.target.value.lastIndexOf('.'), e.target.value.length - 1);
                 if (/\.{1}\w{5,}/.test(e.target.value)) {
                     e.target.value = e.target.value.replace(/\.{1}\w{6,}/ig, stringDomen);
                 }
@@ -180,14 +179,14 @@ const sendForm = () => {
 
 
 
-    form2.addEventListener('submit', (e) => {
+    form2.addEventListener('submit', e => {
         e.preventDefault();
 
         form2.appendChild(statusMessage);
         //statusMessage.textContent = loadMessage;
 
         const form2Data = new FormData(form2);
-        let body = {};
+        const body = {};
 
         form2Data.forEach((val, key) => {
             body[key] = val;
@@ -199,8 +198,7 @@ const sendForm = () => {
             statusMessage.textContent = 'Введите корректный e-mail';
             statusMessage.style.color = 'red';
             return;
-        }
-        else postData(body)
+        } else postData(body)
             .then(response => {
                 hideAnim();
                 if (response.status !== 200) {
@@ -223,13 +221,13 @@ const sendForm = () => {
     }
   }
     `, form2);
-        form2Inputs.forEach((item) => {
+        form2Inputs.forEach(item => {
             item.value = '';
         });
     });
 
 
-    form3.addEventListener('submit', (e) => {
+    form3.addEventListener('submit', e => {
         e.preventDefault();
 
         form3.appendChild(statusMessage);
@@ -237,7 +235,7 @@ const sendForm = () => {
         // statusMessage.textContent = loadMessage;
 
         const form3Data = new FormData(form3);
-        let body = {};
+        const body = {};
 
         form3Data.forEach((val, key) => {
             body[key] = val;
@@ -249,8 +247,7 @@ const sendForm = () => {
             statusMessage.textContent = 'Введите корректный e-mail';
             statusMessage.style.color = 'red';
             return;
-        }
-        else postData(body)
+        } else postData(body)
             .then(response => {
                 hideAnim();
                 if (response.status !== 200) {
@@ -273,11 +270,11 @@ const sendForm = () => {
           }
             `, form3);
 
-        form3Inputs.forEach((item) => {
+        form3Inputs.forEach(item => {
             item.value = '';
         });
 
-        let timeout = setTimeout(() => {
+        const timeout = setTimeout(() => {
             document.querySelector('.popup').style.display = 'none';
             statusMessage.remove();
             clearTimeout(timeout);
@@ -288,36 +285,36 @@ const sendForm = () => {
     formValid('form2');
     formValid('form3');
 
-    const postData = (body) => {
+    const postData = body =>
 
-        return fetch('./server.php', {
+        fetch('./server.php', {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'
             },
             body: JSON.stringify(body)
-        });
+        })
 
-        // return new Promise((resolve,reject) => {
-        // const request = new XMLHttpRequest();
-        // request.addEventListener('readystatechange', () => {   
-        //     if (request.readyState !== 4) {
-        //         return;
-        //     }
+    // return new Promise((resolve,reject) => {
+    // const request = new XMLHttpRequest();
+    // request.addEventListener('readystatechange', () => {
+    //     if (request.readyState !== 4) {
+    //         return;
+    //     }
 
-        //     if (request.status === 200) {
-        //         resolve();
-        //     }
-        //     else {
-        //         reject(request.status);
-        //     }
-        // });
-        // request.open('POST', './server.php');
-        // request.setRequestHeader('Content-Type', 'application/json');
+    //     if (request.status === 200) {
+    //         resolve();
+    //     }
+    //     else {
+    //         reject(request.status);
+    //     }
+    // });
+    // request.open('POST', './server.php');
+    // request.setRequestHeader('Content-Type', 'application/json');
 
-        // request.send(JSON.stringify(body));
-        // });
-    };
+    // request.send(JSON.stringify(body));
+    // });
+    ;
 };
 
 export default sendForm;
